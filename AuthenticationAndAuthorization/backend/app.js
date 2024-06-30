@@ -44,3 +44,18 @@ app.post("/post", async (req, res) => {
     res.send({ status: 500, message: "Internal server error" });
   }
 });
+
+require("./model/userDetails");
+
+const User = mongoose.model("userInfo");
+
+app.post("/register", async (req, res) => {
+  const { uname, email, phoneNo } = req.body;
+
+  try {
+    await User.create({ uname, email, phoneNo });
+    res.send({ status: 200, message: "User registered successfully" });
+  } catch (error) {
+    res.send({ status: 500, message: "Internal server error" });
+  }
+});
