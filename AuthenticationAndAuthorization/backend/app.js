@@ -1,10 +1,30 @@
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+const mongoURL =
+  "mongodb+srv://ashiskumer:ashiskumer@cluster0.apxqlr8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+mongoose
+  .connect(mongoURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((err) => {
+    console.log("Error connecting to MongoDB", err);
+  });
+
+// mongoose.connection.on("connected", () => {
+//   console.log("Connected to mongo");
+// });
+
+// app.get("/", (req, res) => {
+//   res.send("Hello World!");
+// });
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
