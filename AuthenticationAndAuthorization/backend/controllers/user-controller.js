@@ -6,7 +6,7 @@ exports.getUser = async (req, res) => {
     let user;
 
     try {
-        user = await User.findById(userId, "-password");
+        user = await User.findById(userId, "-password", );
     } catch (error) {
         console.log(error.message);
     }
