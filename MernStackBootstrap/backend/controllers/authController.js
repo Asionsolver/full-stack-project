@@ -56,7 +56,7 @@ class authController {
             const token = jwt.sign({ userId: isUserExist._id }, "secretkey", {
               expiresIn: "1h",
             });
-            return res.status(200).json({ message: "Login successful", token });
+            return res.status(200).json({ message: "Login successful", token, name: isUserExist.name});
           } else {
             return res.status(400).json({ message: "Invalid Credentials" });
           }
