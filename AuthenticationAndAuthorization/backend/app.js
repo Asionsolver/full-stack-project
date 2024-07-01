@@ -1,61 +1,30 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const router = require("./routes/user-routes");
+
+// Middleware
 app.use(express.json());
+app.use("/api", router);
 
-const mongoURL =
-  "mongodb+srv://ashiskumer:ashiskumer@cluster0.apxqlr8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// MongoDB URL
+const mongoURL = "mongodb://127.0.0.1:27017/authentication_authorization";
 
+// Connect to MongoDB
 mongoose
-  .connect(mongoURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(mongoURL)
   .then(() => {
-    console.log("Connected to database");
+    console.log("Connected to MongoDB");
   })
   .catch((err) => {
     console.log("Error connecting to MongoDB", err);
   });
 
-// mongoose.connection.on("connected", () => {
-//   console.log("Connected to mongo");
-// });
-
 // app.get("/", (req, res) => {
-//   res.send("Hello World!");
+//   res.status(200).send("Hello World!");
 // });
 
+// Listen on port 3000
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
-});
-
-app.post("/post", async (req, res) => {
-  //   console.log(req.body);
-  const { data } = req.body;
-  //   console.log(data);
-  try {
-    if (data === "admin") {
-      res.send({ status: 200, message: "Admin is logged in" });
-    } else {
-      res.send({ status: 406, message: "User is not admin" });
-    }
-  } catch (error) {
-    res.send({ status: 500, message: "Internal server error" });
-  }
-});
-
-require("./model/userDetails");
-
-const User = mongoose.model("userInfo");
-
-app.post("/register", async (req, res) => {
-  const { uname, email, phoneNo } = req.body;
-
-  try {
-    await User.create({ uname, email, phoneNo });
-    res.send({ status: 200, message: "User registered successfully" });
-  } catch (error) {
-    res.send({ status: 500, message: "Internal server error" });
-  }
 });
