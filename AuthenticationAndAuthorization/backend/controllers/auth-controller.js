@@ -9,7 +9,7 @@ exports.signup = async (req, res) => {
     // check if the user already exists
     let existingUser;
     try {
-      existingUser = await User.findOne({ email: email });
+      existingUser = await User.findOne({  email });
     } catch (error) {
       console.log(error.message);
     }
