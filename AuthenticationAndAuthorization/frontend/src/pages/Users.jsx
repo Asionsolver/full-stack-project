@@ -1,10 +1,25 @@
 import axios from "axios";
 import { useContext, useEffect } from "react";
-import { AuthContext } from '../context/authContext';
+import { AuthContext } from "../context/authContext";
 axios.defaults.withCredentials = true;
+
+
+let firstRender = true;
 
 export const Users = () => {
   const { user, setUser } = useContext(AuthContext);
+
+  const refreshToken = async () => {
+    const res = await axios.get("http://localhost:3000/api/refresh", {
+      withCredentials: true,
+    });
+
+    const data = await res.data;
+    console.log(data);
+    setUser(data.user);
+    return data;
+  };
+
   const sendRequest = async () => {
     const response = await axios.get("http://localhost:3000/api/user", {
       withCredentials: true,
@@ -15,8 +30,19 @@ export const Users = () => {
     setUser(data.user);
   };
   useEffect(() => {
-    sendRequest();
-  });
+    if (firstRender) {
+      sendRequest();
+      firstRender = false;
+    }
+
+    const interval = setInterval(() => {
+      refreshToken();
+    }, 10000*29);
+
+    return () => {
+      clearInterval(interval);
+    };
+  },[user]);
 
   return (
     <div className="flex justify-center items-center h-screen">
