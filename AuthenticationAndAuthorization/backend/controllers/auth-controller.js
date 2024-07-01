@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "secret";
+
 
 exports.signup = async (req, res) => {
   try {
@@ -61,10 +61,12 @@ exports.login = async (req, res) => {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 
+  
+
   // create a token
-  const token = jwt.sign({ id: existingUser._id }, JWT_SECRET, {
+  const token = jwt.sign({ id: existingUser._id },process.env.JWT_SECRET_KEY, {
     expiresIn: "1h",
   });
 
-  return res.status(200).json({ message: "Logged in successfully", token });
+  return res.status(200).json({ message: "Logged in successfully", token});
 };

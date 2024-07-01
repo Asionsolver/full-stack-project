@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const router = require("./routes/user-routes");
+require("dotenv").config();
 
 // Middleware
 app.use(express.json());
