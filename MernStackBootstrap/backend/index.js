@@ -2,7 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db.js");
 const authRoutes = require("./routes/authRoutes");
 const cors = require("cors");
-
+const dotenv = require("dotenv");
 
 // Create an express app instance and connect to the database
 const app = express();
